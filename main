@@ -38,6 +38,13 @@ void RideBooking::setCar(int num, int capacity) //Method to set the number and n
 
 
 
+
+
+
+//subclass Carpool
+
+//Subclass Single Dest
+
 int main ()
 {
   string inputCommand="";		//Initializes a variable that stores inputted commands.
