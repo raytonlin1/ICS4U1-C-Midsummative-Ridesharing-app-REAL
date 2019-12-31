@@ -22,8 +22,8 @@ public:			//These are public methods.
   void makeReservation (string destinationInput);	//Method that makes a reservation.
   void cancelReservation ();	//Method that cancels a reservation.
   int getCarNumber ();		//Method that obtains the number of the car that is taken for the ride.
-  virtual string getDestination(); //Method that gets the destination of the ride. This is changed in the subclasses.
-  virtual void changeDestination(); //Method that changes the destination for the ride. This is changed in the subclasses.
+  virtual string getDestination()=0; //Method that gets the destination of the ride. This is a pure virtual function only used in the subclasses.
+  virtual void changeDestination()=0; //Method that changes the destination for the ride. This is a pure virtual function only used in the subclasses.
 private:			//These are private members that can only be accessed by the public methods.
   int carNumber;		//Represents the number of the car that is taken for the ride.
   int numOfSeats;		//Represents the number of seats of the ride.
