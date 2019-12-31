@@ -1,0 +1,30 @@
+/*
+Name: Rayton Lin
+Teacher: Mr. Noukhovitch
+Class: ICS4U1-03
+Date: January 5th, 2019
+Purpose: This program stores information for a ride sharing app using classes, inheritance, constructors, destructors, functions, exceptions and dynamic memory.
+*/
+#include <iostream>
+
+using namespace std;
+
+class RideList //Creates a class to represent the rides.
+{
+private:
+    Tree* trees[3]; //Make a table of pointers pointing to tree objects.
+    trees[0]=new TreeChild1; //An object of the first type of tree is created and placed in the 0th index.
+    trees[1]=new TreeChild2; //An object of the second type of tree is created and placed in the 1st index.
+    trees[2]=new TreeChild3; //An object of the third type of tree is created and placed in the 2nd index.
+public:
+    RideList(); //Constructor for the class.
+    ~RideList(); //Destructor for the class.
+}
+int main()
+{
+    RideList rides; //Creates an object of the rides.
+
+    
+    delete 
+    return 0;
+}
