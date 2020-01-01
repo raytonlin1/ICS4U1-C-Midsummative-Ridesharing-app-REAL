@@ -16,7 +16,7 @@ public:			//These are public methods.
     
 private:			//These are private members that can only be accessed by the public methods.
     
-}
+};
 
 class Carpool : public Ride
 {
@@ -27,42 +27,51 @@ public:
     void addDestination();
     string getDestination(); //Method that gets the destination of the ride. This is changed in the subclasses.
     void changeDestination(); //Method that changes the destination for the ride. This is changed in the subclasses.
-}
+};
 
 
 class SingleCar : public Ride
 {
 public:
+    void addDestination();
     string getDestination();	//Method that obtains the destination of the ride.
-    void getDestination(); //Method that gets the destination of the ride. 
     void changeDestination(); //Method that changes the destination for the ride. 
-}
+};
 
 class RideList //Creates a class to represent the list of rides.
 {
 private:
     int maxNumberOfRides; //Integer that stores the maximum number of rides.
-    Ride* rides[]; //Make a table of pointers pointing to rides.
+    Ride rides; //Member that is a table of pointers pointing to rides.
 public:
-    RideList(); //Constructor for the class.
+    RideList(int numOfRides); //Constructor for the class.
     ~RideList(); //Destructor for the class.
-    void create();
+    /*void create();
     void delete();
     void reserve();
-    void cancel();
-}
+    void cancel();*/
+};
 
-RideList::RideList()
+RideList::RideList(int numOfRides)
 {
-    
+    rides=new Ride[numOfRides];
 }
 
-RideList::~RideList
+RideList::~RideList()
+{
+    delete rides;
+}
 
 int main()
 {
-    RideList rides; //Creates an object of the rides.
-    
+    string inputCommand="",inputTypeOfRide;		//Initializes string variables that stores inputted commands and inputted types of rides.
+    int inputNumber,inputSeats, maxNumberOfRides;		//Initializes integer variables that stores inputted car numbers, inputted number of seats and the maximum number of rides.
+    cout << "Enter the maximum number of rides that can be stored. Car ID numbers will go from 1 to this number: ";
+    cin >> maxNumberOfRides;
+    cout << "\n";
+    RideList *arrOfRides; //Initializes a pointer to an object holding a list of rides.
+    arrOfRides=new RideList(maxNumberOfRides); //Creates an object of the rides.
+    delete arrOfRides;
     
     
     return 0;
