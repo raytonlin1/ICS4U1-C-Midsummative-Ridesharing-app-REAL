@@ -1,0 +1,121 @@
+/*
+Name: Rayton Lin
+Teacher: Mr. Noukhovitch
+Class: ICS4U1-03
+Date: January 5th, 2019
+Purpose: This program stores information for a ride sharing app using classes, inheritance, constructors, destructors, functions, exceptions and dynamic memory.
+*/
+
+//And this-> to use another method in an object.
+#include <iostream>
+#include <cstring>
+using namespace std;
+
+class Ride //Creates a class to represents a ride.
+{
+public:			//These are public methods.
+    Ride() {}; //Constructor for a ride.
+    ~Ride() {}; //Destructor for when the ride is finished.
+    
+private:			//These are private members that can only be accessed by the public methods.
+    
+};
+
+class RideList //Creates a class to represent the list of rides.
+{
+private:
+    int numOfRides; //Member integer that stores the number of rides.
+    int numOfDestinations; //Member integer that stores the number of destinations.
+    Ride *rides; //Member that is a pointer to a table of rides.
+    string *destinations; //Member that is a pointer to a table of strings representing destinations.
+public:
+    RideList(int inpNumOfRides, int inpNumOfDestinations); //Constructor for the class.
+    ~RideList(); //Destructor for the class.
+    void setDestinations(); //Method that asks for inputs and sets the destinations.
+    void printDestinations(); //Method that prints each possible destination.
+};
+
+RideList::RideList(int inpNumOfRides, int inpNumOfDestinations)
+{
+    numOfRides=inpNumOfRides; //Sets the number of rides equal to the number of rides inputted.
+    numOfDestinations=inpNumOfDestinations; //Sets the number of destinations equal to the number of destinations inputted.
+    rides=new Ride[inpNumOfRides+1]; //Initializes a pointer to an array of rides to represent the rides in the ride-sharing app, with the maximum number of rides being the number inputted.
+    destinations=new string[inpNumOfDestinations+1]; //Initializes a pointer to an array of strings to represent the destinations.
+}
+
+
+RideList::~RideList()
+{
+    delete rides;
+    delete destinations;
+}
+
+void RideList::setDestinations() //Method that asks for inputs and sets the destinations.
+{
+    if (numOfDestinations==1)
+    {
+        cout<<"Enter the names of the destination: \n";
+        cin>>destinations[1];
+    }
+    else
+    {
+        string inputStr; //Initializes a string to hold the input.
+        string *ptr=destinations; //Initializes a pointer to an index in the array of strings holding the destinations.
+        cout<<"Enter the names of each of the "<<numOfDestinations<<" destinations, on separate lines: \n";
+        cin.get(); //Used to remove the newline character from the previous cin usage in main, so getline(cin,inputStr) will obtain inputs correctly.
+        for (int i=1;i<=numOfDestinations;i++)
+        {
+            ptr++;
+            getline(cin,inputStr);
+            *ptr=inputStr;
+        }
+        cout<<"\n";
+    }
+}
+
+void RideList::printDestinations() //Method that prints each possible destination.
+{
+    cout<<"The destinations are:\n";
+    for (int i=1;i<=numOfDestinations;i++)
+    {
+        cout<<i<<". "<<destinations[i]<<"\n";
+    }
+}
+
+int main()
+{
+  string inputCommand="",inputTypeOfRide;		//Initializes string variables that stores inputted commands and inputted types of rides.
+  int inputNumber,inputSeats, numOfDestinations, maxNumberOfRides;		//Initializes integer variables that stores inputted car numbers, inputted number of seats, the number of destinations and the maximum number of rides.
+  cout << "Enter the maximum number of rides that can be stored. Car ID numbers will go from 1 to this number: ";
+  cin >> maxNumberOfRides;
+  cout << "\n"; //Asks for an inputted number for the number of rides.
+  cout << "Enter the number of destinations: ";
+  cin >> numOfDestinations;
+  cout << "\n"; //Asks for an inputted number for the number of destinations.
+  RideList* rides;
+  rides=new RideList(maxNumberOfRides,numOfDestinations); //Creates a pointer to an object holding a list of rides.
+  rides->setDestinations();
+  rides->printDestinations();
+  
+
+
+
+
+
+
+
+  /*cout<<"The following commands can be entered.\n";
+  cout<<"The create command creates a new ride. You will be asked to enter the number of the car, and then the number of seats in the car.\n";
+  cout<<"The delete command deletes a ride. You will be asked for the number of the car to be deleted.\n";
+  cout<<"The reserve command reserves a ride. You will be asked for the number of seats necessary, and the destination.\n";
+  cout<<"The cancel command cancels a ride. You will be asked for the number of the car whose ride will be cancelled.";
+  cout<<"The quit command exits the program.\n";*/
+  delete rides; //Deletes rides as it is dynamic memory.
+  return 0;
+}
+/*
+1.Install a car/ride record
+2. Make reservation 
+3. Show availability of seats in the car details
+4. Show all rides available to the designation
+*/
