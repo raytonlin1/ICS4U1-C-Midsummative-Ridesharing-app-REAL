@@ -46,8 +46,8 @@ RideList::RideList(int inpNumOfRides, int inpNumOfDestinations)
 
 RideList::~RideList()
 {
-    delete rides;
-    delete destinations;
+    delete[] rides;
+    delete[] destinations;
 }
 
 void RideList::setDestinations() //Method that asks for inputs and sets the destinations.
