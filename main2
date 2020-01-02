@@ -15,16 +15,50 @@ class Ride //Creates a class to represents a ride.
 public:			//These are public methods.
     Ride() {active=false;}; //Constructor for a ride.
     ~Ride() {}; //Destructor for when the ride is finished.
-    
-private:			//These are private members that can only be accessed by the public methods.
-    bool active; //Boolean member that stores whether the ride is activated.
+    bool getActive {return active;}; //Method that returns whether the car is active for a ride or not.
+    virtual void setPossibleDestinations()=0; //Method that sets the possible destinations for the ride. This is a pure virtual function that is only used in the subclasses.
+    virtual void printPossibleDestinations()=0; //Method that prints the possible destinations for the ride. This is a pure virtual function that is only used in the subclasses.
+protected:			//These are protected members that can only be accessed by the public methods in this class or any subclasses.
+    bool active; //Boolean member that stores whether the car has been assigned to a ride.
     int numOfSeats; //Integer member that stores the number of seats in the car.
+    string typeOfRide; //String member that stores the type of ride it is.
+    string *possibleDestinations; //Member that points to an array of strings representing the possible destinations it can go to.
+};
+
+class Carpool : public Ride
+{
+public:
+    Carpool(int inpNumOfSeats) {active=false; typeOfRide="Carpool"; numOfSeats=inpNumOfSeats;}; //Constructor for a carpool.
+    ~Carpool(); //Destructor for when the carpool is deleted.
+    void switchActive() {active=!active;); //Switches the active boolean member from false to true, or true to false.
+    void setPossibleDestinations() {possibleDestinations=new string[numOfSeats+1];}; //Method that sets the possible destinations for the ride.
+    void printPossibleDestinations(); //Method that prints the possible destinations for the ride.
+    void addDestination(); //Method that adds a destination for the ride. 
+    void removeDestination(); //Method that removes a destination for the ride.
+    void reserveSeats(int inpNumOfSeats); //Method that reserves seats for the carpool.
+    void unreserveSeats(int inpNumOfSeats); //Method that unreserves seats for the carpool.
+private:
+    string *destinations; //Member that points to an array of strings representing destinations;
+    int numOfReservedSeats; //Member that stores the number of reserved seats in the carpool.
+};
+
+class Regular : public Ride
+{
+public:
+    Regular(int inpNumOfSeats) {active=false; typeOfRide="Regular"; numOfSeats=inpNumOfSeats;}; //Constructor for a regular ride.
+    ~Regular(); //Destructor for when the ride is deleted.
+    void setPossibleDestinations() {possibleDestinations=new string[numOfSeats+1];}; //Method that sets the possible destinations for the ride.
+    void printPossibleDestinations(); //Method that prints the possible destinations for the ride.
+    void setDestination(); //Method that sets the destination for the ride. 
+private:
+    string destination; //Member that stores the destination.
 };
 
 class RideList //Creates a class to represent the list of rides.
 {
 private:
-    int numOfRides; //Member integer that stores the number of rides.
+    int maxNumOfRides; //Member integer that stores the maximum number of rides.
+    int curNumOfRides; //Member integer that stores the current number of rides.
     int numOfDestinations; //Member integer that stores the number of destinations.
     Ride *rides; //Member that is a pointer to a table of rides.
     string *destinations; //Member that is a pointer to a table of strings representing destinations.
@@ -33,12 +67,17 @@ public:
     ~RideList(); //Destructor for the class.
     void setDestinations(); //Method that asks for inputs and sets the destinations.
     void printDestinations(); //Method that prints each possible destination.
+    void printRides(); //Method that prints the status of each ride.
+    void create(); //Method that creates a new ride.
+    void delete(); //Method that deletes an existing ride.
     void reserve(); //Method that reserves a ride for a customer.
+    void complete(); //Method that completes a ride.
 };
 
 RideList::RideList(int inpNumOfRides, int inpNumOfDestinations)
 {
-    numOfRides=inpNumOfRides; //Sets the number of rides equal to the number of rides inputted.
+    maxNumOfRides=inpNumOfRides; //Sets the maximum number of rides equal to the number of rides inputted.
+    curNumOfRides=0; //Sets the current number of rides to 0.
     numOfDestinations=inpNumOfDestinations; //Sets the number of destinations equal to the number of destinations inputted.
     rides=new Ride[inpNumOfRides+1]; //Initializes a pointer to an array of rides to represent the rides in the ride-sharing app, with the maximum number of rides being the number inputted.
     destinations=new string[inpNumOfDestinations+1]; //Initializes a pointer to an array of strings to represent the destinations.
@@ -55,8 +94,9 @@ void RideList::setDestinations() //Method that asks for inputs and sets the dest
 {
     if (numOfDestinations==1)
     {
-        cout<<"Enter the names of the destination: \n";
+        cout<<"Enter the name of the destination: ";
         cin>>destinations[1];
+        cout<<"\n";
     }
     else
     {
@@ -83,9 +123,35 @@ void RideList::printDestinations() //Method that prints each possible destinatio
     }
 }
 
+void RideList::create() //Method that creates a new ride.
+{
+    
+}
+
+void RideList::delete() //Method that deletes an existing ride.
+{
+    
+}
+
 void RideList::reserve() //Method that reserves a ride for a customer.
 {
-    string typeOfRide; //Initializes a string to represent the type of ride a customer wants.
+    string typeOfRide; //Initializes a local string variable to represent the type of ride a customer wants.
+}
+
+void RideList::complete() //Method that completes a ride.
+{
+    int carNumber; //Initializes a local integer variable to store the number of the car whose ride has been compeleted.
+    cout<<"Enter the number of the car whose ride has been completed: ";
+    cin>>carNumber;
+    cout<<"\n";
+    if (rides[carNumber]->getActive()) //Checks if the car inputted is currently in a ride.
+    {
+        
+    }
+    else //If the car is not in a ride, this block of code runs.
+    {
+        cout<<"This car is not currently assigned to a ride.\n";
+    }
 }
 
 int main()
@@ -103,35 +169,39 @@ int main()
   RideList* rides;
   rides=new RideList(maxNumberOfRides,maxNumOfDestinations); //Creates a pointer to an object holding a list of rides.
   rides->setDestinations(); //Asks the user to set all the destinations the rides can go to.
-  //rides->printDestinations();
   
   cout<<"The following commands can be entered.\n";
-  cout<<"The create command creates a new ride. You will be asked to enter the number of the car, and then the number of seats in the car.\n";
+  cout<<"The create command creates a new ride. You will be asked to enter the type of car, the number of the car, and the number of seats in the car.\n";
   cout<<"The delete command deletes a ride. You will be asked for the number of the car to be deleted.\n";
   cout<<"The reserve command reserves a ride. You will be asked for the number of seats necessary, and the destination.\n";
-  cout<<"The cancel command cancels a ride. You will be asked for the number of the car whose ride will be cancelled.";
+  cout<<"The complete command complete a ride. You will be asked for the number of the car whose ride has been completed.\n";
+  cout<<"The destinations command prints the possible destinations for the ride-sharing app.\n";
   cout<<"The quit command exits the program.\n";
   
   while (inputCommand != "quit")
     {
-      cout << "Enter your command (create, delete, reserve, cancel or quit): ";
+      cout << "Enter your command (create, delete, reserve, complete, destinations or quit): ";
 	  cin >> inputCommand;
       cout << "\n";
       if (inputCommand=="create")
       {
-          
+          rides->create();
       }
       else if (inputCommand=="delete")
       {
-          
+          rides->delete();
       }
       else if (inputCommand=="reserve")
       {
           rides->reserve();
       }
-      else if (inputCommand=="cancel")
+      else if (inputCommand=="complete")
       {
-          
+          rides->complete();
+      }
+      else if (inputCommand=="destinations")
+      {
+          rides->printDestinations();
       }
       else if (inputCommand=="quit")
       {
