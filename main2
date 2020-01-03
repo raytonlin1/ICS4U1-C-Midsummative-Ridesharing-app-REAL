@@ -195,7 +195,7 @@ void Regular::setDestination(RideList rides)
     }
     else
     {
-        destinations=rides.destinations[inpDestinationNo];
+        destination=rides.destinations[inpDestinationNo];
     }
 }
 
