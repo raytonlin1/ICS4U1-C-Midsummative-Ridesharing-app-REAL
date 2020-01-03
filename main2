@@ -447,6 +447,7 @@ void RideList::create() //Method that creates a new ride.
         }
         //The above creates the type of car in the slot of the car number.
         this->setPossibleDestinations(carNumber); //Sets the possible destinations for the car.
+	curNumOfRides++;
     }
 }
 
@@ -461,11 +462,16 @@ void RideList::delete() //Method that deletes an existing ride.
     {
         cout<<"This is not a valid number for a car. A valid car number is between 1 and "<<maxNumberOfRides<<".\n";
     }
+    else if (rides[carNumber].getTypeOfRide()=="Uncreated")
+    {
+    	cout<<"There is not an existing car with the inputted number that has been created.\n";
+    }
     else
     {
         delete rides[carNumber];
         rides[carNumber]=new Ride();
         //Deletes the old ride at that location and turns it into an uncreated car.
+	curNumOfRides--;
     }
 }
 
